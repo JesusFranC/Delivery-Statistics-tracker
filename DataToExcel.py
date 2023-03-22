@@ -33,14 +33,53 @@ Variables to be collected:
     Tip:        Tip Pay given by client
     BasePay:    Base Pay given by Uber
     
-Functions needed:
+Main Functions needed:
     VerifyJSON: Checks for existance, creates if not found. Returns the dict representing it
     VerifyXL:   Checks for existance, creates if not found. Returns the XL filename
     addTrip:    Collects all details required, appends them to JSON string
     deleteTrip: Allows the user to find and delete a specific trip
     editTrip    Allows the user to find and edit values from a specific trip
     recreateXL: Deletes and recreates the existing XL file found earlier, with updated data from the JSON dict
+Supporting Functions needed:
+    checkMonth: Ensures we select a valid month
+    checkDay:   Ensures we select a valid day for the given month
 """
+
+def checkMonth()->int:
+    flag = False
+    month = 0
+    while flag is not True:
+        try:
+            month = int(input("What month were/was the deliveries/delivery?\nPlease enter a number from 1 to 12\n"))
+            if month < 1 or month > 12:
+                print("---Not a valid month---")
+            else:
+                check = input(f"Is the following month correct: {month}\nPlease enter Yes or No\n")
+                check = check.lower()
+                if check == "yes":
+                    flag = True
+        except:
+            print("Please enter a number\n")
+            continue
+    return month
+def checkDay(month: int)->int:
+    lastDay = 
+    flag = False
+    day = 0
+    while flag is not True:
+        try:
+            day = int(input("What day were/was the deliveries/delivery?\nPlease enter a number from 1 to {lastDay} \n"))
+            if day < 1 or day > lastDay:
+                print("---Not a valid day---")
+            else:
+                check = input(f"Is the following month correct: {month}\nPlease enter Yes or No\n")
+                check = check.lower()
+                if check == "yes":
+                    flag = True
+        except:
+            print("Please enter a number\n")
+            continue
+    return month
 
 def verifyJSON()->dict:
     delivery_data = {}
@@ -48,7 +87,7 @@ def verifyJSON()->dict:
     year = current_time.year
     __filename__ = f"Delivery_Stats_{year}.Json"
     __filename__ = os.path.realpath(os.path.join(os.getcwd(), __filename__))
-    print(f"{__filename__}")
+    #print(f"{__filename__}")
     
     with open(__filename__, 'w+') as file:
         try:
@@ -67,27 +106,25 @@ def verifyXL()->str:
     wb.save(__filename__)
     return(__filename__)
 
-def addTrip():
-    continue
+def addTrip(data: dict)->None:
+    month = checkMonth()
+    day = checkDay()
 
 def deleteTrip():
-    continue
+    return
 
 def editTrip():
-    continue
+    return
 
 def recreateXL():
-    continue
+    return
 
 def demo():
-    print("Starting\n")
-    verifyJSON()
-    print("\ncompleted JSON\n")
-    verifyXL()
-    print("\ncompleted XLSX")
+    data = verifyJSON()
+    addTrip(data)
 
 def main():
     demo()
 
-if __name__ = "__main__":
+if __name__ == "__main__":
     main()
