@@ -2,6 +2,7 @@
 import os
 from openpyxl import *
 import datetime
+import json
 
 #first, we initialize and make sure that the Excel file exists
     #We create if not existing, and we return if it does
@@ -23,16 +24,25 @@ import datetime
     #All info will be sorted by date
 
 """
+Variables to be collected:
+    Date:       MM/DD/YYYY
+    Time:       HR:Min
+    Duration:   Time taken in minutes
+    Start Zip:  Zipcode where the trip started
+    End Zip:    Zipcode where the trip ended
+    Distance:   Distance driven in miles
+    Service:    Service Uses, such as Delivery, package, GoPuff, McDonalds, and Prop 22
+    Tip:        Tip Pay given by client
+    BasePay:    Base Pay given by Uber
+    
 Functions needed:
-VerifyJSON:
-    
-VerifyXL:
-    
-addTrip:
-
-deleteTrip:
-
-editTrip:
-
-recreateJSON:
+    VerifyJSON:
+    VerifyXL:
+    addTrip:
+    deleteTrip:
+    editTrip:
+    recreateXL:
 """
+
+def verifyJSON()->string:
+    
