@@ -1,4 +1,4 @@
-#This will be the main
+#This will be the main file, where all the functions are stored
 import os
 import openpyxl
 import datetime
@@ -15,8 +15,6 @@ import json
     #(Current options would only be to add, remove or edit a trip)
     #all functions will be added, and all changes will be made to the JSON String.
     #The JSON is constantly saved, after each and every option is finished running
-
-#
 
 #All changes are finished as soon as we are done running commands at the end of the program.
 #Before the program finsishes running, it will lastly wipe and recreate the XLSX File, as a new updated version
@@ -69,8 +67,27 @@ def verifyXL()->str:
     wb.save(__filename__)
     return(__filename__)
 
-print("Starting\n")
-verifyJSON()
-print("\ncompleted JSON\n")
-verifyXL()
-print("\ncompleted XLSX")
+def addTrip():
+    continue
+
+def deleteTrip():
+    continue
+
+def editTrip():
+    continue
+
+def recreateXL():
+    continue
+
+def demo():
+    print("Starting\n")
+    verifyJSON()
+    print("\ncompleted JSON\n")
+    verifyXL()
+    print("\ncompleted XLSX")
+
+def main():
+    demo()
+
+if __name__ = "__main__":
+    main()
