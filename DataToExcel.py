@@ -62,8 +62,8 @@ def checkMonth()->int:
             print("Please enter a number\n")
             continue
     return month
-def checkDay(month: int)->int:
-    lastDay = 
+def checkDay(month: int, year: int)->int:
+    lastDay = (date(year, month, 1) - date(year, month+1, 1)).days
     flag = False
     day = 0
     while flag is not True:
@@ -72,14 +72,14 @@ def checkDay(month: int)->int:
             if day < 1 or day > lastDay:
                 print("---Not a valid day---")
             else:
-                check = input(f"Is the following month correct: {month}\nPlease enter Yes or No\n")
+                check = input(f"Is the following day correct: {day}\nPlease enter Yes or No\n")
                 check = check.lower()
                 if check == "yes":
                     flag = True
         except:
             print("Please enter a number\n")
             continue
-    return month
+    return day
 
 def verifyJSON()->dict:
     delivery_data = {}
@@ -108,7 +108,7 @@ def verifyXL()->str:
 
 def addTrip(data: dict)->None:
     month = checkMonth()
-    day = checkDay()
+    day = checkDay(month, year)
 
 def deleteTrip():
     return
@@ -120,6 +120,8 @@ def recreateXL():
     return
 
 def demo():
+    current_time = datetime.datetime.now()
+    year = current_time.year
     data = verifyJSON()
     addTrip(data)
 
