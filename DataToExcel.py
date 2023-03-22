@@ -1,6 +1,6 @@
 #This will be the main
 import os
-from openpyxl import *
+import openpyxl
 import datetime
 import json
 
@@ -36,13 +36,41 @@ Variables to be collected:
     BasePay:    Base Pay given by Uber
     
 Functions needed:
-    VerifyJSON:
-    VerifyXL:
-    addTrip:
-    deleteTrip:
-    editTrip:
-    recreateXL:
+    VerifyJSON: Checks for existance, creates if not found. Returns the dict representing it
+    VerifyXL:   Checks for existance, creates if not found. Returns the XL filename
+    addTrip:    Collects all details required, appends them to JSON string
+    deleteTrip: Allows the user to find and delete a specific trip
+    editTrip    Allows the user to find and edit values from a specific trip
+    recreateXL: Deletes and recreates the existing XL file found earlier, with updated data from the JSON dict
 """
 
-def verifyJSON()->string:
+def verifyJSON()->dict:
+    delivery_data = {}
+    current_time = datetime.datetime.now()
+    year = current_time.year
+    __filename__ = f"Delivery_Stats_{year}.Json"
+    __filename__ = os.path.realpath(os.path.join(os.getcwd(), __filename__))
+    print(f"{__filename__}")
     
+    with open(__filename__, 'w+') as file:
+        try:
+            if (json.load(file) is not None):
+                delivery_data = json.load(file)
+        except:
+            delivery_data = {}
+    return (delivery_data)
+
+def verifyXL()->str:
+    current_time = datetime.datetime.now()
+    year = current_time.year
+    __filename__ = f"Delivery_Stats_{year}.Xlsx"
+    __filename__ = os.path.realpath(os.path.join(os.getcwd(), __filename__))
+    wb = openpyxl.Workbook()
+    wb.save(__filename__)
+    return(__filename__)
+
+print("Starting\n")
+verifyJSON()
+print("\ncompleted JSON\n")
+verifyXL()
+print("\ncompleted XLSX")
