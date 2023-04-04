@@ -108,21 +108,53 @@ def checkTime()->str:
             continue
     return validTime
 
-def tripFinder()->int:
+"""
+data:   List of all trips
+year:   Year trips take place
 
-def verifyJSON()->list:
-    delivery_data = {}
-    current_time = datetime.datetime.now()
-    year = current_time.year
+Returns the index from data, for a specific trip to be affected from a given day. Returns -1 if no trip found on that day
+"""
+def tripFinder(data, year)->int:
+    month = checkMonth()
+    day = checkDay(month, year)
+    date = datetime.datetime(year, month, day)  #I am creating a date time object
+    dateString = date.strftime("%m/%d/%Y")      #I am converting the date time object to a string
+    dateMatchIndex = []                         #I will hold the list of indexes where the date matches here
+    matchNum = 0                                #The number of matching date trips
+    for i in range(len(data)):  #scans through and gets trips on given day
+        if data[i]['date'] == dateString:
+            dateMatchIndex.append(i)
+            matchNum = matchNum + 1
+    if matchNum > 0:    #"if there were any trips this day"
+        print("These are all times for each trip this day:")
+        for i in range(len(dateMatchIndex)):    #Gets the times for each trip on given day
+            trip = i+1
+            print(f"Trip {trip}: {data[dateMatchIndex[i]]['time']}")
+        while True:     #this loop ensures that a valid trip is selected
+            try:
+                trip = int(input(f"What trip would you like to select?\nEnter a number from 1 to {len(dateMatchIndex)}:"))
+                return dateMatchIndex[trip-1]
+            except:
+                continue
+    else:   #If there were no trips this day
+        print("No matches for this day!")
+        return -1
+
+def verifyJSON(year)->list:
+    delivery_data = []
     __filename__ = f"Delivery_Stats_{year}.Json"
     __filename__ = os.path.realpath(os.path.join(os.getcwd(), __filename__))
     #print(f"{__filename__}")
 
-    with open(__filename__, 'w+') as file:
+    with open(__filename__, 'r') as file:
         try:
-            if (json.load(file) is not None):
-                delivery_data = json.load(file)
+            print("About to load")
+            tempData = json.load(file)
+            if tempData is not None:
+                print("Loading Existing File\n")
+                delivery_data = tempData
         except:
+            print("Creating Blank Data\n")
             delivery_data = []
     return (delivery_data)
 
@@ -141,7 +173,7 @@ def addTrip(data: list, year)->None:
     day = checkDay(month, year)
     date = datetime.datetime(year, month, day)  #I am creating a date time object
     dateString = date.strftime("%m/%d/%Y")      #I am converting the date time object to a string
-
+    
     trips = 0
     while True:
         try:
@@ -172,37 +204,9 @@ def addTrip(data: list, year)->None:
         newTrip = {'date': dateString,'time':timeString,'duration':duration,'sZip':startZip,'eZip':endZip,'distance':distance,'service':service,'tip':tip,'base':basePay}
         data.append(newTrip)
     return
-"""
-data:   List of all trips
-year:   Year trips take place
 
-Returns the index from data, for a specific trip to be affected from a given day. Returns -1 if no trip found on that day
-"""
 def deleteTrip(data, year):
-    month = checkMonth()
-    day = checkDay()
-    date = datetime.datetime(year, month, day)  #I am creating a date time object
-    dateString = date.strftime("%m/%d/%Y")      #I am converting the date time object to a string
-    dateMatchIndex = []                         #I will hold the list of indexes where the date matches here
-    matchNum = 0                                #The number of matching date trips
-    for i in range(len(data)):  #scans through and gets trips on given day
-        if data[i]['date'] == dateString:
-            dateMatchIndex.append(i)
-            matchNum = matchNum + 1
-    if matchNum > 0:    #"if there were any trips this day"
-        print("These are all times for each trip this day:")
-        for i in range(len(dateMatchIndex)):    #Gets the times for each trip on given day
-            trip = i+1
-            print(f"Trip {trip}: data[dateMatchIndex[i]]['date']")
-        while True:     #this loop ensures that a valid trip is selected
-            try:
-                trip = int(input(f"What trip would you like to select?\nEnter a number from 1 to {len(dateMatchIndex)}:"))
-                return dateMatchIndex[trip-1]
-            except:
-                continue
-    else:   #If there were no trips this day
-        print("No matches for this day!")
-        return -1
+    return
 
 def editTrip():
     return
@@ -221,16 +225,30 @@ def updateJSON(data, year):
     return
 
 def demo():
-    current_time = datetime.datetime.now()
-    year = current_time.year
-    data = verifyJSON()
-    addTrip(data, year)
-    for info in data:
-        print(info)
-    updateJSON(data, year)
+##    current_time = datetime.datetime.now()
+##    year = current_time.year
+##    data = verifyJSON(year)
+##    print(data)
+##    addTrip(data, year)
+##    for info in data:
+##        print(info)
+##    updateJSON(data, year)
+##    trip = tripFinder(data, year)
+    userIn = ""
+    while True:
+        userIn = input("What would you like to choose?\n1: Add trip\n2: Delete Trip\n3: Edit Trip\n4: Trip Details\n5: Quit")
+        if userIn == 1:
+            addTrip()
+        elif userIn == 2:
+            deleteTrip()
+        elif userIn == 3:
+            editTrip()
+        elif userIn == 4:
+            tripFinder()
+        elif userIn == 5:
+            break
+        
     
-    
-
 def main():
     demo()
 
