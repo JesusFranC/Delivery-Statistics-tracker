@@ -234,19 +234,28 @@ def demo():
 ##        print(info)
 ##    updateJSON(data, year)
 ##    trip = tripFinder(data, year)
+
+    current_time = datetime.datetime.now()
+    year = current_time.year
+    data = verifyJSON(year)
     userIn = ""
     while True:
-        userIn = input("What would you like to choose?\n1: Add trip\n2: Delete Trip\n3: Edit Trip\n4: Trip Details\n5: Quit")
-        if userIn == 1:
-            addTrip()
-        elif userIn == 2:
-            deleteTrip()
-        elif userIn == 3:
-            editTrip()
-        elif userIn == 4:
-            tripFinder()
-        elif userIn == 5:
-            break
+        try:
+            userIn = int(input("What would you like to choose?\n1: Add trip\n2: Delete Trip\n3: Edit Trip\n4: Trip Details\n5: Quit\n"))
+            if userIn == 1:
+                addTrip(data, year)
+            elif userIn == 2:
+                deleteTrip(data, year)
+            elif userIn == 3:
+                editTrip(data, year)
+            elif userIn == 4:
+                tripFinder(data, year)
+            elif userIn == 5:
+                break
+            else:
+                print("Please enter a valid choice!")
+        except:
+            print("That was not a number!")
         
     
 def main():
