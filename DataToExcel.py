@@ -5,6 +5,10 @@ import datetime
 from datetime import date
 import json
 
+#######################################################
+#NEED TO ADD FEATURE TO ENSURE TRIPS ARENT ADDED TWICE#
+#######################################################
+
 #first, we initialize and make sure that the Excel file exists
     #We create if not existing, and we return if it does
     #The filename is "Delivery_Stats_{Year}.XLSX"
@@ -206,9 +210,13 @@ def addTrip(data: list, year)->None:
     return
 
 def deleteTrip(data, year):
+    tripID = tripFinder(data, year)
+    trip = data.pop(tripID)
+    print(f"Trip on {trip[date]} at {trip[time] has been deleted}")
     return
 
 def editTrip():
+    
     return
 
 def recreateXL():
@@ -249,7 +257,7 @@ def demo():
             elif userIn == 3:
                 editTrip(data, year)
             elif userIn == 4:
-                tripFinder(data, year)
+                print(tripFinder(data, year))
             elif userIn == 5:
                 break
             else:
