@@ -15,13 +15,13 @@ My current goal is to be able to be able to collect all trips and details from t
 My progress on this program is going to be split in three parts
 
 - The Data Collection API:
-    This involves creating a set of functions that allow me to add, remove, and manipulate data from my trips. I do not have access to any API's that would allow me to automate this, so it will be all manual in the meantime
+    - This involves creating a set of functions that allow me to add, remove, and manipulate data from my trips. I do not have access to any API's that would allow me to automate this, so it will be all manual in the meantime
 
 - Data Proccessing:
-    Using data collected from the previous part, and analyzing it in such a way to recognize patterns, and return real information on what times, locations, and dates would be optimal to be work in
+    - Using data collected from the previous part, and analyzing it in such a way to recognize patterns, and return real information on what times, locations, and dates would be optimal to be work in
 
 - The GUI:
-    The final part that would tie the previous two together in a way that is user friendly and easy to work with. 
+    - The final part that would tie the previous two together in a way that is user friendly and easy to work with. 
 
 ## Progress
 
