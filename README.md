@@ -20,7 +20,7 @@ My progress on this program is going to be split in three parts
 
 - Data Proccessing:
     - Using data collected from the previous part, and analyzing it in such a way to recognize patterns
-    - The end goal is to return real information on what times, locations, and dates would be optimal to be work in
+    - The end goal is to return real information on what times, locations, and dates would be optimal to be work
 
 - The GUI:
     - The final part that would tie the previous two together in a way that is user friendly and easy to work with. 
