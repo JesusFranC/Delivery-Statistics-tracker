@@ -136,13 +136,21 @@ def tripFinder(data, year)->int:
             print(f"Trip {trip}: {data[dateMatchIndex[i]]['time']}")
         while True:     #this loop ensures that a valid trip is selected
             try:
-                trip = int(input(f"What trip would you like to select?\nEnter a number from 1 to {len(dateMatchIndex)}:"))
+                trip = int(input(f"What trip would you like to select?\nEnter a number from 1 to {len(dateMatchIndex)}: "))
                 return dateMatchIndex[trip-1]
             except:
+                print("Trip Finder has broken")
                 continue
     else:   #If there were no trips this day
         print("No matches for this day!")
         return -1
+
+def tripDetails(data: list, index: int):
+    
+    for key in data[index].keys():
+        
+        print(f"{key}: {data[index][key]}")
+    
 
 def verifyJSON(year)->list:
     delivery_data = []
@@ -212,7 +220,7 @@ def addTrip(data: list, year)->None:
 def deleteTrip(data, year):
     tripID = tripFinder(data, year)
     trip = data.pop(tripID)
-    print(f"Trip on {trip[date]} at {trip[time] has been deleted}")
+    print(f"Trip on {trip[date]} at {trip[time]} has been deleted")
     return
 
 def editTrip():
@@ -233,6 +241,7 @@ def updateJSON(data, year):
     return
 
 def demo():
+    ###OLD DEMO CODE
 ##    current_time = datetime.datetime.now()
 ##    year = current_time.year
 ##    data = verifyJSON(year)
@@ -242,7 +251,7 @@ def demo():
 ##        print(info)
 ##    updateJSON(data, year)
 ##    trip = tripFinder(data, year)
-
+    #Current functional GUI
     current_time = datetime.datetime.now()
     year = current_time.year
     data = verifyJSON(year)
@@ -257,7 +266,9 @@ def demo():
             elif userIn == 3:
                 editTrip(data, year)
             elif userIn == 4:
-                print(tripFinder(data, year))
+                tripID = tripFinder(data, year)
+                if tripID != -1:
+                    tripDetails(data, tripID)
             elif userIn == 5:
                 break
             else:
