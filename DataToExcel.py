@@ -1,6 +1,6 @@
 #This will be the main file, where all the functions are stored
 import os
-import openpyxl
+from openpyxl import Workbook
 import datetime
 from datetime import date
 import json
@@ -249,7 +249,42 @@ def editTrip(data, year, index):
                     data[index][key] = input(f"enter new {key}: ")
     return
 
-def recreateXL():
+def recreateXL(data, year):
+    #print("Got in to function!")
+    
+    current_time = datetime.datetime.now()
+    year = current_time.year
+    __filename__ = f"Delivery_Stats_{year}.Xlsx"
+    __filename__ = os.path.realpath(os.path.join(os.getcwd(), __filename__))
+    #print("Got the path")
+    
+    wb = Workbook()
+    ws = wb.active
+    #print("opened the file!")
+
+    ws['A1'] = "Date"
+    ws['B1'] = "Time"
+    ws['C1'] = "Duration"
+    ws['D1'] = "Start Zip"
+    ws['E1'] = "End Zip"
+    ws['F1'] = "Distance"
+    ws['G1'] = "Service"
+    ws['H1'] = "Tip"
+    ws['I1'] = "Base Pay"
+    #print("Finished adding labels")
+
+    row = 1
+    for trip in data:
+        row = row + 1
+        col = 'A'
+        for key in trip.keys():
+            value = trip[key]
+            cell = col + str(row)
+            ws[cell] = value
+            col = chr(ord(col)+1)
+    #print("finished all the cells!")
+
+    wb.save(__filename__)
     return
 
 def updateJSON(data, year):
@@ -273,7 +308,7 @@ def demo():
 ##        print(info)
 ##    updateJSON(data, year)
 ##    trip = tripFinder(data, year)
-    #Current functional text based GUI
+    #Current functional simple GUI
     current_time = datetime.datetime.now()
     year = current_time.year
     data = verifyJSON(year)
@@ -299,6 +334,7 @@ def demo():
                     print("No trips on this day!\n")
             elif userIn == 5:
                 updateJSON(data, year)
+                recreateXL(data, year)
                 break
             else:
                 print("Please enter a valid choice!")
