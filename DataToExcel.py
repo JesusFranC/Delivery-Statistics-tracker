@@ -130,13 +130,13 @@ def tripFinder(data, year)->int:
             dateMatchIndex.append(i)
             matchNum = matchNum + 1
     if matchNum > 0:    #"if there were any trips this day"
-        print("These are all times for each trip this day:")
+        print("\nThese are all times for each trip this day:\n")
         for i in range(len(dateMatchIndex)):    #Gets the times for each trip on given day
             trip = i+1
             print(f"Trip {trip}: {data[dateMatchIndex[i]]['time']}")
         while True:     #this loop ensures that a valid trip is selected
             try:
-                trip = int(input(f"What trip would you like to select?\nEnter a number from 1 to {len(dateMatchIndex)}: "))
+                trip = int(input(f"\nWhat trip would you like to select?\nEnter a number from 1 to {len(dateMatchIndex)}: "))
                 return dateMatchIndex[trip-1]
             except:
                 print("Trip Finder has broken")
@@ -146,9 +146,8 @@ def tripFinder(data, year)->int:
         return -1
 
 def tripDetails(data: list, index: int):
-    
+    print("")
     for key in data[index].keys():
-        
         print(f"{key}: {data[index][key]}")
     
 
@@ -220,11 +219,34 @@ def addTrip(data: list, year)->None:
 def deleteTrip(data, year):
     tripID = tripFinder(data, year)
     trip = data.pop(tripID)
-    print(f"Trip on {trip[date]} at {trip[time]} has been deleted")
+    print(f"Trip on {trip['date']} at {trip['time']} has been deleted")
     return
 
-def editTrip():
-    
+def editTrip(data, year, index):
+    item = 0
+    for key in data[index].keys():
+        item = item + 1
+        print(f"{item}. {key}= {data[index][key]}")
+    userIn = int(input("what would you like to edit?\nPlease select the corresponding number: "))
+    print("")
+    if userIn <= item and userIn > 0:
+        item = 0
+        for key in data[index].keys():
+            item = item + 1
+            if item == userIn:
+                print(f"editing {key}")
+                if item == 1:
+                    #Date:       MM/DD/YYYY
+                    month = checkMonth()
+                    day = checkDay(month, year)
+                    date = datetime.datetime(year, month, day)  #I am creating a date time object
+                    dateString = date.strftime("%m/%d/%Y")      #I am converting the date time object to a string
+                    data[index][key] = dateString
+                elif item == 2:
+                    timeString = checkTime()
+                    data[index][key] = timeString
+                else:
+                    data[index][key] = input(f"enter new {key}: ")
     return
 
 def recreateXL():
@@ -251,7 +273,7 @@ def demo():
 ##        print(info)
 ##    updateJSON(data, year)
 ##    trip = tripFinder(data, year)
-    #Current functional GUI
+    #Current functional text based GUI
     current_time = datetime.datetime.now()
     year = current_time.year
     data = verifyJSON(year)
@@ -261,15 +283,22 @@ def demo():
             userIn = int(input("What would you like to choose?\n1: Add trip\n2: Delete Trip\n3: Edit Trip\n4: Trip Details\n5: Quit\n"))
             if userIn == 1:
                 addTrip(data, year)
+                print("")
             elif userIn == 2:
                 deleteTrip(data, year)
+                print("")
             elif userIn == 3:
-                editTrip(data, year)
+                editTrip(data, year, tripFinder(data, year))
+                print("")
             elif userIn == 4:
                 tripID = tripFinder(data, year)
                 if tripID != -1:
                     tripDetails(data, tripID)
+                    print("")
+                else:
+                    print("No trips on this day!\n")
             elif userIn == 5:
+                updateJSON(data, year)
                 break
             else:
                 print("Please enter a valid choice!")
